@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betting Odds Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f9f9f9;
+            padding: 40px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input,
+        select,
+        button {
+            padding: 8px;
+            margin: 10px 0;
+            width: 200px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Betting Odds Calculator</h2>
+
+    <label for="stake">Enter Stake (₹):</label><br>
+    <input type="number" id="stake" placeholder="e.g. 100"><br>
+
+    <label for="oddsType">Select Odds Type:</label><br>
+    <select id="oddsType">
+        <option value="fractional">Fractional (e.g. 2/1)</option>
+        <option value="decimal">Decimal (e.g. 2.5)</option>
+    </select><br>
+
+    <label for="odds">Enter Odds:</label><br>
+    <input type="text" id="odds" placeholder="e.g. 2/1 or 2.5"><br>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculate() {
+            const stake = parseFloat(document.getElementById("stake").value);
+            const oddsInput = document.getElementById("odds").value;
+            const oddsType = document.getElementById("oddsType").value;
+            let profit = 0, totalReturn = 0;
+
+            if (!stake || stake <= 0) {
+                document.getElementById("result").textContent = "Please enter a valid stake.";
+                return;
+            }
+
+            if (oddsType === "fractional") {
+                const parts = oddsInput.split('/');
+                if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) {
+                    document.getElementById("result").textContent = "Please enter valid fractional odds (e.g., 2/1).";
+                    return;
+                }
+                const num = parseFloat(parts[0]);
+                const den = parseFloat(parts[1]);
+                profit = (stake * num) / den;
+            } else {
+                const decimal = parseFloat(oddsInput);
+                if (isNaN(decimal) || decimal <= 1) {
+                    document.getElementById("result").textContent = "Please enter valid decimal odds (> 1).";
+                    return;
+                }
+                profit = stake * (decimal - 1);
+            }
+
+            totalReturn = stake + profit;
+
+            document.getElementById("result").innerHTML =
+                `💰 Profit: ₹${profit.toFixed(2)}<br>📦 Total Return: ₹${totalReturn.toFixed(2)}`;
+        }
+    </script>
+
+</body>
+
+</html>
