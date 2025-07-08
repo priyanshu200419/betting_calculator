@@ -1,0 +1,23 @@
+body {
+    font-family: Arial;
+    background: #f9f9f9;
+    padding: 40px;
+}
+
+h2 {
+    color: #333;
+}
+
+input,
+select,
+button {
+    padding: 8px;
+    margin: 10px 0;
+    width: 200px;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: green;
+}
